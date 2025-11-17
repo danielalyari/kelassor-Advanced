@@ -1,0 +1,12 @@
+# Kelassor Advanced – Online Course Platform (Django + DRF) Kelassor Advanced is a modular online course platform built with **Django 5** and **Django REST Framework**, designed for real-world production use with: - JWT-based API authentication - Social login via Google / Facebook (django-allauth) - Payment & invoice models - Ticketing system for support - Discount / coupon system - RabbitMQ integration for event-driven architecture - Swagger API documentation --- ## Features ### 🔐 Authentication & Users - Custom user model: user.CustomUser - JWT authentication with djangorestframework-simplejwt - Built-in browsable API login (rest_framework auth) - Social login using **django-allauth**: - Google - Facebook - Password reset flow via email (Django auth views) ### 🎓 Courses - courses app to manage: - Course definitions - (Extendable) lessons, content, access rules - RESTful endpoints under /api/courses/ ### 💳 Payments & Billing payments app with rich domain models: - PaymentTransaction – payment gateway result (pending / success / failed) - Invoice – invoice issued for a transaction - Cart – basic cart for selected products - PurchaseHistory – historical purchases per user - Subscription – subscription plans with start / end dates - InstallmentPayment – partial / installment-based payments - GroupPayment – payments involving multiple users - Refund – refund requests and statuses All of this is ready to be integrated with external gateways and services. ### 🎟 Tickets & Support - tickets app (REST API under /api/tickets/) - Can be used for: - User support - Course-related questions - Platform issues ### 💸 Discounts / Coupons - discounts app with API under /api/discounts/ - Designed to support: - Percentage or fixed discounts - Per-user / per-course limits (extendable) ### 📦 Event-Driven Integration (RabbitMQ) Project is ready for event-driven workflows via **RabbitMQ**: - Configured RabbitMQ URL in settings.py - Helper in core/rabbitmq.py:
+python
+  from core.rabbitmq import publish_event
+
+  publish_event(
+      "payments.transaction_success",
+      {
+          "user_id": transaction.user_id,
+          "amount": float(transaction.amount),
+          "transaction_id": transaction.transaction_id,
+      },
+  )

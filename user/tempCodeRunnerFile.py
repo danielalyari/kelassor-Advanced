@@ -1,0 +1,1 @@
+ profile_picture = models.ImageField(
